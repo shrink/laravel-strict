@@ -1,0 +1,22 @@
+image: atlassian/default-image:2
+
+pipelines:
+  default:
+    - step:
+        name: Build image -- run tests
+        image: mesosphere/aws-cli
+        services:
+          - docker
+        script:
+          - docker build --tag test .
+  tags:
+    v*:
+      - step:
+          name: Build Image and push to ECR
+          image: mesosphere/aws-cli
+          services:
+            - docker
+          script:
+            - eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            - docker build --tag ${AWS_REGISTRY_URL}:$BITBUCKET_TAG .
+            - docker push ${AWS_REGISTRY_URL}

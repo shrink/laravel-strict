@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dependencies
+    restart: unless-stopped
+    tty: true
+    working_dir: /srv
+    volumes:
+      - vendor:/srv/vendor
+      - ./composer.json:/srv/composer.json
+      - ./composer.lock:/srv/composer.lock
+      - .:/srv
+    env_file: .env
+    ports:
+      - ${SERVER_PORT:-8094}:80
+    command: composer serve
+networks:
+  default:
+    driver: bridge
+volumes:
+  vendor:

@@ -1,0 +1,72 @@
+{
+    "name": "shrink/laravel-project",
+    "type": "project",
+    "description": "Add a project description here",
+    "license": "proprietary",
+    "require": {
+        "php": "^7.4",
+        "fideloper/proxy": "^4.0",
+        "laravel/framework": "^6.0",
+        "laravel/tinker": "^1.0"
+    },
+    "require-dev": {
+        "facade/ignition": "^1.4",
+        "fzaninotto/faker": "^1.4",
+        "mockery/mockery": "^1.0",
+        "nunomaduro/collision": "^3.0",
+        "nunomaduro/phpinsights": "^1.9",
+        "phpunit/phpunit": "^8.0",
+        "symfony/var-dumper": "^4.3"
+    },
+    "config": {
+        "optimize-autoloader": false,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "generate-key": [
+            "@php artisan key:generate --ansi"
+        ],
+        "serve": [
+            "@generate-key",
+            "Composer\\Config::disableProcessTimeout",
+            "(source .env && echo \"\n→ Launching local server at http://localhost:${SERVER_PORT}\n\")",
+            "@php -S 0.0.0.0:80 -t public"
+        ],
+        "quality": [
+            "@test",
+            "@insights"
+        ],
+        "test": [
+            "vendor/bin/phpunit --colors=always"
+        ],
+        "insights": [
+            "@php artisan insights --ansi --no-interaction --min-quality=90 --min-complexity=90 --min-architecture=90 --min-style=100 --config-path=config/insights.php"
+        ]
+    }
+}

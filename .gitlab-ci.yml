@@ -1,0 +1,12 @@
+image: docker:18
+
+services:
+  - docker:dind
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - docker build --tag test .

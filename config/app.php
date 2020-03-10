@@ -167,7 +167,7 @@ return [
         /*
          * Application Service Providers
          */
-        App\Providers\HttpServiceProvider::class,
+        App\HelloWorld\ServiceProvider::class,
     ],
 
     /*

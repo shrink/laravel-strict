@@ -25,8 +25,6 @@ final class HttpServiceProvider extends ServiceProvider
 
     /**
      * Register the HTTP routes for the application.
-     *
-     * @return void
      */
     public function boot(): void
     {

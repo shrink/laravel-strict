@@ -19,4 +19,11 @@ return [
     'remove' => [
         MethodPerClassLimitSniff::class,
     ],
+
+    'requirements' => [
+        'min-architecture' => 95,
+        'min-complexity' => 95,
+        'min-quality' => 95,
+        'min-style' => 100,
+    ],
 ];

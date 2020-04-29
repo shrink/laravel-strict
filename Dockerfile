@@ -42,7 +42,7 @@ COPY . /srv
 RUN composer dump-autoload
 
 FROM dependencies as test
-RUN composer check
+RUN composer quality
 
 FROM dependencies as clean
 RUN composer install --no-dev

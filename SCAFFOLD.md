@@ -1,6 +1,6 @@
 # Laravel Scaffold
 
-The Laravel Scaffold is a Laravel `v6` install with a number of helpful
+The Laravel Scaffold is a Laravel `v7` install with a number of helpful
 development lifecycle features like coding standards added and much of the
 Laravel boilerplate removed -- all remaining boilerplate has been updated to
 pass validation.
@@ -27,7 +27,7 @@ complete the following steps:
 * Aliases have been removed from `config/app.php` as they encourage bad
   practices by bypassing dependency injection
 * The `routes/` directory has been removed in favour of explicit route
-  registration through the `HttpServiceProvider` as this encourages developers
+  registration through a `ServiceProvider` as this encourages developers
   to think about HTTP as one interface into the application(s) of many rather
   than _the_ application
 

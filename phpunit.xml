@@ -9,12 +9,12 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+        <testsuite name="app:unit">
+            <directory suffix="Test.php">./tests/App/Unit</directory>
         </testsuite>
 
-        <testsuite name="Feature">
-            <directory suffix="Test.php">./tests/Feature</directory>
+        <testsuite name="app:feature">
+            <directory suffix="Test.php">./tests/App/Feature</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -23,7 +23,7 @@
         </whitelist>
     </filter>
     <extensions>
-        <extension class="Tests\Bootstrap"/>
+        <extension class="Tests\App\Bootstrap"/>
     </extensions>
     <php>
         <server name="APP_ENV" value="testing"/>

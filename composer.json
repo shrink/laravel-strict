@@ -68,7 +68,7 @@
             "@php artisan insights --ansi --no-interaction --config-path=config/insights.php"
         ],
         "static": [
-            "vendor/bin/psalm --long-progress"
+            "vendor/bin/psalm --long-progress --report=junit.xml"
         ]
     }
 }

@@ -19,6 +19,10 @@ begin:
 serve:
 	docker-compose up
 
+# Build the application Docker image
+build:
+    docker build . && (docker images --format='{{.ID}}' | head -1)
+
 # Run the application's quality check
 quality:
 	${COMPOSER_COMMAND} quality

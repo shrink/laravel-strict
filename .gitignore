@@ -5,3 +5,5 @@
 .env
 .env.backup
 .phpunit.result.cache
+artifacts/
+junit.xml

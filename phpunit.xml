@@ -25,6 +25,9 @@
     <extensions>
         <extension class="Tests\App\Bootstrap"/>
     </extensions>
+    <logging>
+      <log type="junit" target="artifacts/phpunit.xml"/>
+    </logging>
     <php>
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>

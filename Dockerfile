@@ -42,7 +42,10 @@ COPY . /srv
 RUN composer dump-autoload
 
 FROM dependencies as test
-RUN composer quality
+RUN composer quality || echo "error" > error.exit
+
+RUN mv junit.xml artifacts/psalm.xml
+RUN [[ ! -f error.exit ]] && exit 0
 
 FROM dependencies as clean
 RUN composer install --no-dev
@@ -50,4 +53,7 @@ RUN composer dump-autoload --optimize
 
 FROM php
 COPY . /srv
+COPY --from=test /srv/artifacts /srv/artifacts
 COPY --from=clean /srv/vendor /srv/vendor
+
+WORKDIR /srv

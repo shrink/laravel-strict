@@ -1,4 +1,4 @@
-image: docker:18
+image: docker:19
 
 services:
   - docker:dind
@@ -6,7 +6,17 @@ services:
 stages:
   - build
 
-build:
+app:
   stage: build
+  only:
+    - branches
+    - merge_requests
+    - tags
   script:
-    - docker build --tag test .
+    - docker build .
+  after_script:
+    - CID=$(docker create $(docker images --format='{{.ID}}' | head -1))
+    - docker cp ${CID}:/srv/artifacts .
+  artifacts:
+    reports:
+      junit: artifacts/*.xml

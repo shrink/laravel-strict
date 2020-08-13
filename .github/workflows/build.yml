@@ -1,9 +1,22 @@
 name: Docker Image
+
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build image
-      run: docker build --tag test .
+      run: docker build --tag ${{ github.sha }} .
+    - name: Extract Artifacts
+      run: |
+        IMAGE=$(docker images --filter='tag=${{ github.sha }}' --format='{{.ID}}' | head -1)
+        CONTAINER=$(docker create ${IMAGE})
+        docker cp ${CONTAINER}:/srv/artifacts .
+        ls -a
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: 'artifacts'
+        path: artifacts

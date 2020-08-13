@@ -23,6 +23,12 @@ serve:
 build:
     docker build . && (docker images --format='{{.ID}}' | head -1)
 
+# Tag a new release of the application
+release:
+	git fetch && \
+	git tag -fsa v$(VERSION) -m 'v$(VERSION)' && \
+	git push -f origin v$(VERSION)
+
 # Run the application's quality check
 quality:
 	${COMPOSER_COMMAND} quality

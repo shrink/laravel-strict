@@ -1,4 +1,4 @@
-name: Docker Image
+name: Build Docker Image
 
 on: [push]
 
@@ -11,7 +11,7 @@ jobs:
       run: docker build --tag ${{ github.sha }} .
     - name: Extract Artifacts
       run: |
-        IMAGE=$(docker images --filter='tag=${{ github.sha }}' --format='{{.ID}}' | head -1)
+        IMAGE=$(docker images --format='{{.ID}}' | head -1)
         CONTAINER=$(docker create ${IMAGE})
         docker cp ${CONTAINER}:/srv/artifacts .
         ls -a

@@ -11,9 +11,9 @@ jobs:
       uses: docker/build-push-action@v1
       with:
         username: ${{ github.actor }}
-        password: ${{ github.token }}
-        registry: docker.pkg.github.com
-        repository: ${{ github.repository }}/laravel
+        password: ${{ secrets.GHCR_PAT }}
+        registry: ghcr.io
+        repository: ${{ github.repository }}
         tag_with_ref: true
         add_git_labels: true
         push: ${{ startsWith(github.ref, 'refs/tags/') }}

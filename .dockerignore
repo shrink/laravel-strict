@@ -1,4 +1,4 @@
 .env
 .git
 bootstrap/cache/*.php
-storage/
+vendor/

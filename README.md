@@ -23,8 +23,8 @@ All tests and code quality checks are ran using the `quality` command.
 dev:~$ make quality
 ```
 
-Additional commands are included for managing dependencies, including `serve`,
-`require` and `update`. See `Makefile` for a full list of commands.
+Additional commands are included for managing dependencies, including `shell`,
+`logs` and `update`. See `Makefile` for a full list of commands.
 
 ```console
 dev:~$ make require PACKAGE=phpunit/phpunit
@@ -38,5 +38,5 @@ A set of Git Hooks are included for ensuring compliance with code requirements,
 enable them by running the following command:
 
 ```console
-dev:~$ git config core.hooksPath .meta/githooks
+dev:~$ git config core.hooksPath .github/hooks
 ```

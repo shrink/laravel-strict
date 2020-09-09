@@ -6,12 +6,12 @@
     "require": {
         "php": "^7.4",
         "fideloper/proxy": "^4.0",
-        "laravel/framework": "^7.0",
+        "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.0",
-        "nunomaduro/collision": "^4.1",
+        "facade/ignition": "^2.3.6",
+        "nunomaduro/collision": "^5.0",
         "nunomaduro/phpinsights": "^1.14",
         "phpunit/phpunit": "^8.5|^9.0",
         "vimeo/psalm": "^3.11"

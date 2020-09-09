@@ -54,7 +54,7 @@
             "@generate-key",
             "Composer\\Config::disableProcessTimeout",
             "(source .env && echo \"\n→ Launching local server at http://localhost:${SERVER_PORT}\n\")",
-            "@php -S 0.0.0.0:80 -t public"
+            "@php -S 0.0.0.0:8080 -t public"
         ],
         "quality": [
             "@test",

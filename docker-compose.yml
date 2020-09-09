@@ -7,7 +7,6 @@ services:
       target: dependencies
     restart: unless-stopped
     tty: true
-    working_dir: /srv
     volumes:
       - vendor:/srv/vendor
       - ./composer.json:/srv/composer.json
@@ -15,8 +14,8 @@ services:
       - .:/srv
     env_file: .env
     ports:
-      - ${SERVER_PORT:-8094}:80
-    command: composer serve
+      - ${SERVER_PORT:-8094}:8080
+    container_name: ${SERVICE_PREFIX}_app
 networks:
   default:
     driver: bridge

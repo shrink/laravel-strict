@@ -1,6 +1,6 @@
 # Laravel Scaffold
 
-The Laravel Scaffold is a Laravel `v7` install with a number of helpful
+The Laravel Scaffold is a Laravel install with a number of helpful
 development lifecycle features like coding standards added and much of the
 Laravel boilerplate removed -- all remaining boilerplate has been updated to
 pass validation.

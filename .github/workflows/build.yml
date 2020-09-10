@@ -23,11 +23,12 @@ jobs:
       with:
         repository: ghcr.io/${{ github.repository }}
     - uses: shrink/actions-docker-extract@v1
+      id: artifacts
       with:
         image: ${{ steps.latest.outputs.image }}
         path: /srv/artifacts/.
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        path: ${{ steps.extract.outputs.destination }}
+        path: ${{ steps.artifacts.outputs.destination }}
         name: 'build-artifacts'

@@ -1,9 +1,9 @@
-# Laravel Scaffold
+# Laravel Strict
 
 **Laravel** [`8`][laravel-8] + **Docker**
 [`shrink/docker-php-api`][shrink/docker-php-api]
 
-Laravel Scaffold is a Laravel install designed for building high quality
+Laravel Strict is a Laravel install designed for building high quality
 containerised Laravel applications.
 
 * Code quality enforced by [`nunomaduro/phpinsights`][php-insights] and
@@ -19,10 +19,10 @@ During development you can visit the [`laravel/laravel`][laravel/laravel]
 repository to obtain any boilerplate required and explicitly introduce it into
 the application, updating it to abide by the coding standards.
 
-:thought_balloon: **Laravel Scaffold is intended for projects with strict code
+:thought_balloon: **Laravel Strict is intended for projects with strict code
 quality requirements**, it was created for use in regulated environments where
-confidence is more valuable than development speed — therefore it is very
-strict and opinionated.
+confidence is more valuable than development speed — therefore it is very strict
+and opinionated.
 
 ## Getting Started
 

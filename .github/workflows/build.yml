@@ -27,8 +27,8 @@ jobs:
       with:
         image: ${{ steps.latest.outputs.image }}
         path: /srv/artifacts/.
-    - name: Upload Artifacts
+    - name: Upload Test Artifacts
       uses: actions/upload-artifact@v2
       with:
         path: ${{ steps.artifacts.outputs.destination }}
-        name: 'build-artifacts'
+        name: 'test-artifacts'

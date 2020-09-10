@@ -17,13 +17,18 @@ jobs:
         tag_with_ref: true
         add_git_labels: true
         push: ${{ startsWith(github.ref, 'refs/tags/') }}
-    - name: Extract Artifacts
-      run: |
-        IMAGE=$(docker images --format='{{.ID}}' | head -1)
-        CONTAINER=$(docker create ${IMAGE})
-        docker cp ${CONTAINER}:/srv/artifacts .
-    - name: Upload Artifacts
+    - name: Get Latest Image
+      id: latest
+      uses: shrink/actions-docker-latest-image@v1
+      with:
+        repository: ghcr.io/${{ github.repository }}
+    - uses: shrink/actions-docker-extract@v1
+      id: artifacts
+      with:
+        image: ${{ steps.latest.outputs.image }}
+        path: /srv/artifacts/.
+    - name: Upload Test Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: 'build-artifacts'
-        path: artifacts
+        path: ${{ steps.artifacts.outputs.destination }}
+        name: 'test-artifacts'

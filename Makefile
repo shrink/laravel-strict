@@ -4,7 +4,7 @@ SERVICE_PREFIX = $(shell export $(shell cat .env | xargs) && echo $$SERVICE_PREF
 SERVICE_NAME = app
 APP_NAME = $(SERVICE_PREFIX)_${SERVICE_NAME}
 
-CONTAINER_COMMAND = make container && docker-compose exec ${SERVICE_NAME}
+CONTAINER_COMMAND = make container && docker-compose exec -T ${SERVICE_NAME}
 COMPOSER_COMMAND = ${CONTAINER_COMMAND} composer --verbose
 
 # Set up any pre-requisites required for the application and then serve it in

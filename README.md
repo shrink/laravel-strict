@@ -84,4 +84,4 @@ performance in development by ~10x
 [.env.example]: .env.example
 [composer.json]: composer.json
 [docker/name]: https://github.com/moby/moby/blob/19.03/daemon/names/names.go#L6
-[hooks]: README.md#hooks
+[hooks]: README-project.md#hooks

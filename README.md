@@ -21,7 +21,7 @@ the application, updating it to abide by the coding standards.
 
 :thought_balloon: **Laravel Scaffold is intended for projects with strict code
 quality requirements**, it was created for use in regulated environments where
-confidence is more valuable than development speed -- as such, it is very
+confidence is more valuable than development speed — therefore it is very
 strict and opinionated.
 
 ## Getting Started
@@ -43,11 +43,11 @@ steps:
 ## Notes
 
 * Aliases have been removed from `config/app.php` as they encourage bypassing
-  dependency injection
+  dependency injection.
 * The `routes/` directory has been removed in favour of explicit route
   registration through a `ServiceProvider` as this encourages developers
-  to think about HTTP as one interface into the application rather -- than _the_
-  application
+  to think about HTTP as one interface into the application — rather than _the_
+  application.
 
 ## Volume `vendor`
 
@@ -84,4 +84,4 @@ performance in development by ~10x
 [.env.example]: .env.example
 [composer.json]: composer.json
 [docker/name]: https://github.com/moby/moby/blob/19.03/daemon/names/names.go#L6
-[hooks]: README.md#hooks
+[hooks]: README-project.md#hooks

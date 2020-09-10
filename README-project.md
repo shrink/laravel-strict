@@ -7,7 +7,7 @@ Description of the project here...
 A `Dockerfile` builds the application and a `docker-compose.yml` configuration
 is provided for application orchestration during development. Developers should
 only interact with the project through the container(s). A number of commands
-are included to aide with this workflow -- provided by `make` -- including the
+are included to aide with this workflow — provided by `make` — including the
 php development server and code quality checks.
 
 ```console

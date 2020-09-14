@@ -1,3 +1,5 @@
+MAKEFLAGS += --silent
+
 include .env.example
 -include .env
 
@@ -10,12 +12,10 @@ COMPOSER_COMMAND = ${CONTAINER_COMMAND} composer --verbose
 # Set up any pre-requisites required for the application and then serve it in
 # detached mode
 .PHONY: begin
-begin:
-	@make .env
-	@make container
-	@echo "\033[92m»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
-	@echo "  Launched application at http://localhost:$(SERVER_PORT)"
-	@echo "««««««««««««««««««««««««««««««««««««««««««««««««««\033[0m"
+begin: .env container
+	echo "\033[92m»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»"
+	echo "  Launched application at http://localhost:$(SERVER_PORT)"
+	echo "««««««««««««««««««««««««««««««««««««««««««««««««««\033[0m"
 
 # Make environment file and generate application key
 .env:
@@ -25,7 +25,7 @@ begin:
 # Run application in detached mode
 .PHONY: container
 container:
-	@docker-compose up -d
+	docker-compose up -d
 
 # Listen to the logs for the application
 .PHONY: logs
@@ -86,8 +86,7 @@ generate-key:
 
 # Refresh the application environment -- clean dependencies
 .PHONY: refresh
-refresh:
-	make clean && make
+refresh: clean begin
 
 # Log in to the container
 .PHONY: shell

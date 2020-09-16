@@ -38,6 +38,8 @@ steps:
 - [ ] Fill out [`composer.json`][composer.json] with package metadata
 - [ ] Execute `$ mv README-project.md README.md`
 - [ ] Apply the project [Git Hooks][hooks] in your local environment
+- [ ] Generate and add a [Personal Access Token][ghcr-pat] to the
+      [repository secrets][secrets] using name `GHCR_PAT`
 - [ ] Commit!
 
 ## Notes
@@ -85,3 +87,5 @@ performance in development by ~10x
 [composer.json]: composer.json
 [docker/name]: https://github.com/moby/moby/blob/19.03/daemon/names/names.go#L6
 [hooks]: README-project.md#hooks
+[ghcr-pat]: https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images#authenticating-with-the-container-registry
+[secrets]: settings/secrets

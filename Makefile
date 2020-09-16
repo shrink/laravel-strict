@@ -49,10 +49,10 @@ release:
 	git tag -fsa v$(VERSION) -m 'v$(VERSION)' && \
 	git push -f origin v$(VERSION)
 
-# Run the application's quality check
-.PHONY: quality
-quality:
-	${COMPOSER_COMMAND} quality
+# Run the application's code checks
+.PHONY: check
+check:
+	${COMPOSER_COMMAND} check
 
 # Run the application's tests
 .PHONY: test

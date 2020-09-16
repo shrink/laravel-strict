@@ -6,6 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Test Presence of GHCR_PAT
+      if: ${{ ! secrets.GHCR_PAT }}
+      run: |
+        echo "::warning file=README.md,line=41,col=0::GHCR_PAT has not been set"
+        exit 0
     - uses: actions/checkout@v2
     - name: Build & Publish If Tagged
       uses: docker/build-push-action@v1

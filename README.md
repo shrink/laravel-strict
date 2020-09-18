@@ -51,17 +51,21 @@ steps:
   to think about HTTP as one interface into the application — rather than _the_
   application.
 * Environment Variables are passed in to the container by Docker Compose: dotenv
-  is **not** recommended. Environment Variables should be explicitly set for
+  is **not** supported. Environment Variables should be explicitly set for
   each service in [`docker-compose.yml`][dc-config] to emulate how
   environment variables will be provided in production environments. A developer
   can use [`docker-compose.override.yml`][dc-override] to provide values unique
   to their local environment.
+* [`.dockerignore`][docker-ignore] excludes all files by default before
+  explicitly including paths required by the application. Learn more about this
+  approach in [Getting Control Of Your `.dockerignore` Files][ignore-by-default]
+  by [@markbirbeck][markbirkbeck].
 
 ## Volume `vendor`
 
 By default the `vendor` directory is a mounted volume to maximise performance,
 however if you wish for developers to be able to access the contents of the
-`vendor` directory you can modify `docker-compose.yml` like so:
+`vendor` directory you can modify [`docker-compose.yml`][dc-config] like so:
 
 ```diff
 volumes:
@@ -69,7 +73,7 @@ volumes:
 +  - ./vendor:/srv/vendor
 ```
 
-This will require an additional `composer install` as part of the `launch` step
+This will require an additional dependency install as part of the `launch` step
 in the `Makefile`, i.e:
 
 ```diff
@@ -95,3 +99,6 @@ performance in development by ~10x
 [secrets]: settings/secrets
 [dc-config]: docker-compose.yml
 [dc-override]: https://docs.docker.com/compose/extends/#understanding-multiple-compose-files
+[docker-ignore]: .dockerignore
+[ignore-by-default]: https://youknowfordevs.com/2018/12/07/getting-control-of-your-dockerignore-files.html
+[markbirkbeck]: https://github.com/markbirbeck

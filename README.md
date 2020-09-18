@@ -9,8 +9,8 @@ containerised Laravel applications.
 * Code quality enforced by [`nunomaduro/phpinsights`][php-insights] and
   [`vimeo/psalm`][psalm]
 * Laravel boilerplate removed
-* Continuous Delivery through a [GitHub Workflow][workflows/build] publishing to
-  the GitHub Container Registry
+* Continuous Delivery using [GitHub Actions][workflows/build] and the GitHub
+  Container Registry
 * Docker Compose provides a local development environment
 * [`Makefile`](Makefile) includes helpful development lifecycle commands
 * **All requests served by Laravel** which is ideal for an API
@@ -29,27 +29,33 @@ and opinionated.
 After creating a new repository from this template, complete the following
 steps:
 
-- [ ] Fill out the description of the project in
+- [ ] Write a description of the project in
       [`README-project.md`][readme-project]
-- [ ] in [`.env.example`][.env.example] set unique HTTP `SERVER_PORT` for the
+- [ ] in [`.env.example`][.env.example] set a unique `APP_PORT` for the
       application
-- [ ] in [`.env.example`][.env.example] set container's `SERVICE_PREFIX` (a
+- [ ] in [`.env.example`][.env.example] set the `SERVICE_PREFIX` (a
       valid [`container name`][docker/name])
-- [ ] Fill out [`composer.json`][composer.json] with package metadata
-- [ ] Execute `$ mv README-project.md README.md`
+- [ ] Fill out [`composer.json`][composer.json] with project metadata
 - [ ] Apply the project [Git Hooks][hooks] in your local environment
 - [ ] Generate and add a [Personal Access Token][ghcr-pat] to the
       [repository secrets][secrets] using name `GHCR_PAT`
+- [ ] Execute `$ mv README-project.md README.md`
 - [ ] Commit!
 
 ## Notes
 
 * Aliases have been removed from `config/app.php` as they encourage bypassing
   dependency injection.
-* The `routes/` directory has been removed in favour of explicit route
+* The `routes` directory has been removed in favour of explicit route
   registration through a `ServiceProvider` as this encourages developers
   to think about HTTP as one interface into the application — rather than _the_
   application.
+* Environment Variables are passed in to the container by Docker Compose: dotenv
+  is **not** recommended. Environment Variables should be explicitly set for
+  each service in [`docker-compose.yml`][dc-config] to emulate how
+  environment variables will be provided in production environments. A developer
+  can use [`docker-compose.override.yml`][dc-override] to provide values unique
+  to their local environment.
 
 ## Volume `vendor`
 
@@ -63,14 +69,12 @@ volumes:
 +  - ./vendor:/srv/vendor
 ```
 
-This will require an additional `composer install` as part of the begin step
+This will require an additional `composer install` as part of the `launch` step
 in the `Makefile`, i.e:
 
 ```diff
-begin:
-	cp -n .env.example .env && make generate-key || true
-	@make container
-+	@make install
+launch: run
++	make install
 ```
 
 :warning: volume mounting dependencies in this way will reduce application
@@ -89,3 +93,5 @@ performance in development by ~10x
 [hooks]: README-project.md#hooks
 [ghcr-pat]: https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images#authenticating-with-the-container-registry
 [secrets]: settings/secrets
+[dc-config]: docker-compose.yml
+[dc-override]: https://docs.docker.com/compose/extends/#understanding-multiple-compose-files

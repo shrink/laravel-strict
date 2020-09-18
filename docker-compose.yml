@@ -1,6 +1,7 @@
 version: '3.4'
 services:
   app:
+    image: ${SERVICE_PREFIX:-laravel}_app:local
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,10 +13,15 @@ services:
       - ./composer.json:/srv/composer.json
       - ./composer.lock:/srv/composer.lock
       - .:/srv
-    env_file: .env
+    environment:
+      - APP_NAME="Laravel Project"
+      - APP_ENV=local
+      - APP_KEY=base64:UQ1twa4dXlsO3ZnD9R8nhLVjNx4pdOTOjACqZgOOBuM=
+      - APP_DEBUG=true
+      - APP_URL=http://localhost
     ports:
-      - ${SERVER_PORT:-8094}:8080
-    container_name: ${SERVICE_PREFIX}_app
+      - ${APP_PORT:-8094}:8080
+    container_name: ${SERVICE_PREFIX:-laravel}_app
 networks:
   default:
     driver: bridge

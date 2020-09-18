@@ -3,7 +3,7 @@
 /storage/*.key
 /vendor
 .env
-.env.backup
 .phpunit.result.cache
 artifacts/
 junit.xml
+docker-compose.override.yml

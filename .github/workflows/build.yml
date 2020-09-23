@@ -28,10 +28,14 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache
         tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
         push: true
+        # outputs: type=image,dest=path
+    - run: docker image ls
+    - run: docker inspect ${{ steps.image.outputs.digest }}
+    - run: docker inspect ghcr.io/${{ github.repository }}:${{ github.sha }}
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:
-        image: ${{ steps.image.outputs.digest }}
+        image: ghcr.io/${{ github.repository }}:${{ github.sha }}
         path: /srv/artifacts/.
     - name: Upload Test Artifacts
       uses: actions/upload-artifact@v2

@@ -27,11 +27,7 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
         tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
-        load: true
         push: true
-    - run: docker image ls
-    - run: docker inspect ${{ steps.image.outputs.digest }}
-    - run: docker inspect ghcr.io/${{ github.repository }}:${{ github.sha }}
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

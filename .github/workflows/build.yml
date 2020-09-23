@@ -34,7 +34,7 @@ jobs:
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:
-        image: ghcr.io/${{ github.repository }}:${{ github.sha }}
+        image: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
         path: /srv/artifacts/.
     - name: Upload Test Artifacts
       uses: actions/upload-artifact@v2

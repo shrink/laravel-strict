@@ -2,6 +2,9 @@ name: Build Application + Publish
 
 on: [push]
 
+env:
+  CACHE_ID: '000001'
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,8 +21,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: ${{ runner.os }}-buildx-
+        key: ${{ runner.os }}-buildx-${{ env.CACHE_ID }}-${{ github.sha }}
+        restore-keys: ${{ runner.os }}-buildx-${{ env.CACHE_ID }}
     - name: Build Image
       id: image
       uses: docker/build-push-action@v2

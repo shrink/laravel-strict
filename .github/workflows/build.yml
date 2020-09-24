@@ -26,11 +26,10 @@ jobs:
       with:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
-        tags: |
-          ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
-          ghcr.io/${{ github.repository }}:branch-test
-          ghcr.io/${{ github.repository }}:tag-test
-        push: true
+        tags: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
+        outputs: |
+          type=docker
+          type=registry
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

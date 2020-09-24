@@ -27,9 +27,7 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
         tags: ghcr.io/${{ github.repository }}:sha-${{ github.sha }}
-        outputs: |
-          type=docker
-          type=registry
+        push: true
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

@@ -21,6 +21,7 @@ jobs:
       run: |
         openssl rand -out cachebuster -base64 64
         echo "COPY cachebuster ./" >> Dockerfile
+        echo "!cachebuster" >> .dockerignore
     - name: Cache Docker layers
       uses: actions/cache@v2
       with:

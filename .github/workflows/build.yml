@@ -28,7 +28,6 @@ jobs:
     - id: push
       run: |
         echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
-        echo ::set-output name=ref::${${GITHUB_REF#refs/*/}//\//-}
     - name: Build Image
       id: image
       uses: docker/build-push-action@v2
@@ -37,7 +36,6 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache
         tags: |
           ghcr.io/${{ github.repository }}:${{ steps.push.outputs.sha }}
-          ghcr.io/${{ github.repository }}:${{ steps.push.outputs.ref }}
         push: true
     - uses: shrink/actions-docker-extract@v1
       id: artifacts

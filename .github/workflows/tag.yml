@@ -9,12 +9,6 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PAT }}
     - id: push
       run: |
         echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
@@ -29,7 +23,7 @@ jobs:
         > manifest-${{ steps.push.outputs.sha }}.json
     - name: Push new tag for manifest
       env:
-        GHCR_PAT_SECRET: ${{ secrets.GHCR_PAT_BASE64 }}
+        GHCR_PAT: ${{ secrets.GHCR_PAT_BASE64 }}
       run: |
         curl -XPUT 'https://ghcr.io/v2/${{ github.repository }}/manifests/${{ steps.push.outputs.ref }}' \
         -H 'content-type: application/vnd.docker.distribution.manifest.v2+json' \

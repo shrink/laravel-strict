@@ -20,7 +20,7 @@ jobs:
         curl 'https://ghcr.io/v2/${{ github.repository }}/manifests/${{ steps.push.outputs.sha }}' \
         -H 'accept: application/vnd.docker.distribution.manifest.v2+json' \
         -H "Authorization: Bearer $GHCR_PAT" \
-        > manifest-${{ steps.push.outputs.sha }}.json
+        -o manifest-${{ steps.push.outputs.sha }}.json
     - name: Push new tag for manifest
       env:
         GHCR_PAT: ${{ secrets.GHCR_PAT_BASE64 }}

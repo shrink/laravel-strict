@@ -19,7 +19,7 @@ jobs:
     - uses: docker/setup-buildx-action@v1
     - name: Ensure new image digest for final layer due to GitHub bug
       run: |
-        openssl rand -base64 64 -out cachebuster
+        openssl rand -out cachebuster -base64 64
         echo "COPY cachebuster ./" >> Dockerfile
     - name: Cache Docker layers
       uses: actions/cache@v2

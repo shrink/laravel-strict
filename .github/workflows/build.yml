@@ -20,7 +20,7 @@ jobs:
     - name: Ensure new image digest for final layer due to GitHub bug
       run: |
         cat /dev/urandom | head -n 1 > cachebuster
-        echo "COPY cachebuster ." >> Dockerfile
+        echo "COPY cachebuster ./" >> Dockerfile
     - name: Cache Docker layers
       uses: actions/cache@v2
       with:

@@ -17,17 +17,14 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GHCR_PAT }}
     - uses: docker/setup-buildx-action@v1
-    - name: Ensure new image digest for final layer due to GitHub bug
-      run: |
-        openssl rand -out cachebuster -base64 64
-        echo "COPY cachebuster ./" >> Dockerfile
-        echo "!cachebuster" >> .dockerignore
     - name: Cache Docker layers
       uses: actions/cache@v2
       with:
         path: /tmp/.buildx-cache
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: ${{ runner.os }}-buildx
+    - name: Ensure new image digest for final layer due to GitHub bug
+      run: echo "ADD http://worldtimeapi.org/api/timezone/Europe/London.txt cachebuster" >> Dockerfile
     - name: Build Image
       id: image
       uses: docker/build-push-action@v2

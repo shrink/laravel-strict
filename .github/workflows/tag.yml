@@ -28,4 +28,4 @@ jobs:
         curl -XPUT 'https://ghcr.io/v2/${{ github.repository }}/manifests/${{ steps.push.outputs.ref }}' \
         -H 'content-type: application/vnd.docker.distribution.manifest.v2+json' \
         -H "Authorization: Bearer $GHCR_PAT" \
-        -d '@manifest-${{ steps.push.outputs.sha }}.json'
+        --data-binary '@manifest-${{ steps.push.outputs.sha }}.json'

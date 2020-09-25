@@ -19,11 +19,19 @@ jobs:
       run: |
         echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
         echo ::set-output name=ref::${GITHUB_REF#refs/*/}
-    - name: Publish image for tag
+    - name: Fetch manifest for commit image
+      env:
+        GHCR_PAT: ${{ secrets.GHCR_PAT_BASE64 }}
       run: |
-        REPOSITORY=ghcr.io/${{ github.repository }}
-        COMMIT=${REPOSITORY}:${{ steps.push.outputs.sha }}
-        TAG=${REPOSITORY}:${{ steps.push.outputs.ref }}
-        docker pull ${COMMIT}
-        docker tag ${COMMIT} ${TAG}
-        docker push ${TAG}
+        curl 'https://ghcr.io/v2/${{ github.repository }}/manifests/${{ steps.push.outputs.sha }}' \
+        -H 'accept: application/vnd.docker.distribution.manifest.v2+json' \
+        -H "Authorization: Bearer $GHCR_PAT" \
+        > manifest-${{ steps.push.outputs.sha }}.json
+    - name: Push new tag for manifest
+      env:
+        GHCR_PAT_SECRET: ${{ secrets.GHCR_PAT_BASE64 }}
+      run: |
+        curl -XPUT 'https://ghcr.io/v2/${{ github.repository }}/manifests/${{ steps.push.outputs.ref }}' \
+        -H 'content-type: application/vnd.docker.distribution.manifest.v2+json' \
+        -H "Authorization: Bearer $GHCR_PAT" \
+        -d '@manifest-${{ steps.push.outputs.sha }}.json'

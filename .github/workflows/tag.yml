@@ -1,0 +1,29 @@
+name: Tag Application Build
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GHCR_PAT }}
+    - id: push
+      run: |
+        echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
+        echo ::set-output name=ref::${GITHUB_REF#refs/*/}
+    - name: Publish image for tag
+      run: |
+        REPOSITORY=ghcr.io/${{ github.repository }}
+        COMMIT=${REPOSITORY}:${{ steps.push.outputs.sha }}
+        TAG=${REPOSITORY}:${{ steps.push.outputs.ref }}
+        docker pull ${COMMIT}
+        docker tag ${COMMIT} ${TAG}
+        docker push ${TAG}

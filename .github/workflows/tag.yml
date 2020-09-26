@@ -19,7 +19,7 @@ jobs:
         registry: ghcr.io
         token: ${{ secrets.GHCR_PAT }}
         repository: ${{ github.repository }}
-        target: sha-${{ github.sha }}
+        target: ${{ steps.push.outputs.sha }}
         tags: |
           ${{ steps.push.outputs.ref }}
           latest

@@ -1,0 +1,25 @@
+name: Tag Application Build
+
+on:
+  push:
+    tags:
+      - '**'
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+    - id: push
+      run: |
+        echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
+        echo ::set-output name=ref::${GITHUB_REF#refs/*/}
+    - name: Publish Tag
+      uses: shrink/actions-docker-registry-tag@v1
+      with:
+        registry: ghcr.io
+        token: ${{ secrets.GHCR_PAT }}
+        repository: ${{ github.repository }}
+        target: ${{ steps.push.outputs.sha }}
+        tags: |
+          ${{ steps.push.outputs.ref }}
+          latest

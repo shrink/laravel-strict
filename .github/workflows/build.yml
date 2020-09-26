@@ -1,4 +1,4 @@
-name: Build Application + Publish
+name: Build Application
 
 on:
   push:

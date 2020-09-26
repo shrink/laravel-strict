@@ -24,19 +24,25 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: ${{ runner.os }}-buildx
     - name: Ensure new image digest for final layer due to GitHub bug
-      run: echo "ADD http://worldtimeapi.org/api/timezone/Europe/London.txt cachebuster" >> Dockerfile
+      run: echo "ADD https://worldtimeapi.org/api/ip.txt cachebuster" >> Dockerfile
     - id: push
       run: |
         echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
+        echo ::set-output name=at::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
     - name: Build Image
       id: image
       uses: docker/build-push-action@v2
       with:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
-        tags: |
-          ghcr.io/${{ github.repository }}:${{ steps.push.outputs.sha }}
         push: true
+        tags: ghcr.io/${{ github.repository }}:${{ steps.push.outputs.sha }}
+        labels: |
+          org.opencontainers.image.title=${{ github.repository }}
+          org.opencontainers.image.url=${{ github.event.repository.html_url }}
+          org.opencontainers.image.source=${{ github.event.repository.clone_url }}
+          org.opencontainers.image.created=${{ steps.push.outputs.at }}
+          org.opencontainers.image.revision=${{ steps.push.outputs.sha }}
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

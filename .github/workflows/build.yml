@@ -46,6 +46,7 @@ jobs:
     - if: ${{ always() }}
       run: |
         docker container ls -aq --format '{{.Image}}' | head -1
+        ls /tmp/.buildx-cache
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

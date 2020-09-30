@@ -43,6 +43,9 @@ jobs:
           org.opencontainers.image.source=${{ github.event.repository.html_url }}
           org.opencontainers.image.created=${{ steps.push.outputs.at }}
           org.opencontainers.image.revision=${{ steps.push.outputs.sha }}
+    - if: ${{ always() }}
+      run: |
+        docker container ls -aq --format '{{.Image}}' | head -1
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

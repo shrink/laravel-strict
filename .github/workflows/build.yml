@@ -47,6 +47,7 @@ jobs:
       run: |
         docker container ls -aq --format '{{.Image}}' | head -1
         ls /tmp/.buildx-cache
+        cat /tmp/.buildx-cache/index.json
     - uses: shrink/actions-docker-extract@v1
       id: artifacts
       with:

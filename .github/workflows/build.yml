@@ -42,7 +42,7 @@ jobs:
           org.opencontainers.image.source=${{ github.event.repository.html_url }}
           org.opencontainers.image.created=${{ steps.push.outputs.at }}
           org.opencontainers.image.revision=${{ steps.push.outputs.sha }}
-    - name: Rebuild with test stage target for artifact extraction
+    - name: On failure rebuild to test stage for artifact extraction
       if: ${{ failure() }}
       uses: docker/build-push-action@v2
       with:

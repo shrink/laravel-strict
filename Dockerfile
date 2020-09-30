@@ -19,8 +19,8 @@ RUN composer dump-autoload
 FROM dependencies as test
 RUN composer check || echo "error" > error.exit
 
-RUN mv junit.xml artifacts/psalm.xml
-RUN [[ ! -f error.exit ]] && exit 0
+FROM test as validate
+RUN [[ ! -f error.exit ]] || exit 1
 
 FROM dependencies as production
 RUN composer install --no-dev
@@ -28,5 +28,5 @@ RUN composer dump-autoload --optimize
 
 FROM php
 COPY --chown=nobody . ./
-COPY --from=test /srv/artifacts /srv/artifacts
+COPY --from=validate /srv/artifacts /srv/artifacts
 COPY --from=production /srv/vendor /srv/vendor

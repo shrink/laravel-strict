@@ -50,6 +50,7 @@ jobs:
         cache-to: type=local,dest=/tmp/.buildx-cache
         load: true
         tags: ghcr.io/${{ github.repository }}:${{ steps.push.outputs.sha }}
+        target: test
     - uses: shrink/actions-docker-extract@v1
       if: ${{ always() }}
       id: artifacts

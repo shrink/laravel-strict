@@ -19,7 +19,6 @@ RUN composer dump-autoload
 FROM dependencies as test
 RUN composer check || echo "error" > error.exit
 
-RUN mv junit.xml artifacts/psalm.xml
 RUN [[ ! -f error.exit ]] && exit 0
 
 FROM dependencies as production

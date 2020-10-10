@@ -16,7 +16,7 @@ services:
       - APP_ENV=local
       - APP_KEY=base64:UQ1twa4dXlsO3ZnD9R8nhLVjNx4pdOTOjACqZgOOBuM=
       - APP_DEBUG=true
-      - APP_URL=http://localhost
+      - APP_URL=http://localhost:${APP_PORT:-8080}
     ports:
       - ${APP_PORT:-8080}:8080
 networks:

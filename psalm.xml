@@ -9,7 +9,6 @@
 >
     <projectFiles>
         <directory name="app" />
-        <directory name="config" />
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />

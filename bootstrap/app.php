@@ -78,6 +78,36 @@ $app->instance('config', new Config([
             ],
         ],
     ],
+    'database' => [
+        'default' => env('DB_CONNECTION'),
+        'connections' => [
+            'sqlite' => [
+                'driver' => 'sqlite',
+                'url' => '',
+                'database' => env('DB_DATABASE'),
+                'prefix' => '',
+                'foreign_key_constraints' => true,
+            ],
+            'mysql' => [
+                'driver' => 'mysql',
+                'url' => '',
+                'host' => env('DB_HOST'),
+                'port' => env('DB_PORT'),
+                'database' => env('DB_DATABASE'),
+                'username' => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD'),
+                'unix_socket' => '',
+                'charset' => 'utf8mb4',
+                'collation' => 'utf8mb4_unicode_ci',
+                'prefix' => '',
+                'prefix_indexes' => true,
+                'strict' => true,
+                'engine' => null,
+                'options' => [],
+            ],
+        ],
+        'migrations' => 'migrations',
+    ],
     'logging' => [
         [
             'default' => env('LOG_CHANNEL', 'stdout'),

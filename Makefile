@@ -3,8 +3,8 @@ MAKEFLAGS += --silent
 include .env.example
 -include .env
 
+SERVICE_PREFIX = $(basename $(pwd))
 SERVICE_NAME = app
-APP_NAME = $(SERVICE_PREFIX)_${SERVICE_NAME}
 
 COMPOSER_COMMAND = make services && \
 				   docker-compose exec ${SERVICE_NAME} composer
@@ -16,7 +16,7 @@ launch: services
 
 # Create a local environment configuration
 .env:
-	cp .env.example .env
+	cp -n .env.example .env
 
 # Run all services in detached mode
 .PHONY: services
@@ -32,7 +32,7 @@ logs:
 .PHONY: build
 build:
 	test -n "$(TAG)"
-	docker build . -t ${APP_NAME}:$(TAG)
+	docker build . -t ${SERVICE_PREFIX}_${SERVICE_NAME}:$(TAG)
 	docker images --format='{{.ID}}: {{.Repository}}:{{.Tag}} {{.Size}}' | head -1
 
 # Tag a new version of the application | VERSION!

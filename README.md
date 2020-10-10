@@ -33,8 +33,6 @@ steps:
       [`README-project.md`][readme-project]
 - [ ] in [`.env.example`][.env.example] set a unique `APP_PORT` for the
       application
-- [ ] in [`.env.example`][.env.example] set the `SERVICE_PREFIX` (a
-      valid [`container name`][docker/name])
 - [ ] Fill out [`composer.json`][composer.json] with project metadata
 - [ ] Apply the project [Git Hooks][hooks] in your local environment
 - [ ] Generate and add a [Personal Access Token][ghcr-pat] to the

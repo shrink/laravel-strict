@@ -13,5 +13,4 @@
 !resources/
 !server.php
 !src/
-!storage/framework/views/.gitignore
 !tests/

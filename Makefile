@@ -3,7 +3,7 @@ MAKEFLAGS += --silent
 include .env.example
 -include .env
 
-SERVICE_PREFIX = $(basename $(pwd))
+SERVICE_PREFIX = `basename $(CURDIR)`
 SERVICE_NAME = app
 
 COMPOSER_COMMAND = make services && \

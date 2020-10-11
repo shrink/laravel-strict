@@ -8,6 +8,9 @@ FROM php as dependencies
 
 ENV HOME=/run
 
+RUN mkdir -p /srv/storage/logs
+RUN mkdir -p /srv/storage/framework/views
+
 COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
 RUN composer global require hirak/prestissimo --dev --prefer-dist && \

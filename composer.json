@@ -29,11 +29,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        },
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
@@ -65,7 +61,7 @@
             "vendor/bin/phpunit --colors=always"
         ],
         "insights": [
-            "@php artisan insights --ansi --no-interaction --config-path=config/insights.php"
+            "vendor/bin/phpinsights --ansi --no-interaction --config-path=insights.php"
         ],
         "static": [
             "vendor/bin/psalm --long-progress --report=artifacts/psalm.junit.xml"

@@ -31,10 +31,8 @@ steps:
 
 - [ ] Write a description of the project in
       [`README-project.md`][readme-project]
-- [ ] in [`.env.example`][.env.example] set a unique `APP_PORT` for the
-      application
-- [ ] in [`.env.example`][.env.example] set the `SERVICE_PREFIX` (a
-      valid [`container name`][docker/name])
+- [ ] in [`.env.example`][.env.example] set a unique `APP_PORT` and `MYSQL_PORT`
+      for the application
 - [ ] Fill out [`composer.json`][composer.json] with project metadata
 - [ ] Apply the project [Git Hooks][hooks] in your local environment
 - [ ] Generate and add a [Personal Access Token][ghcr-pat] to the
@@ -44,8 +42,12 @@ steps:
 
 ## Notes
 
-* Aliases have been removed from `config/app.php` as they encourage bypassing
-  dependency injection.
+* Configuration has been moved from `config/*.php` into the application
+  bootstrap in [`bootstrap/app.php`][bootstrap] where all additional
+  configuration of the application should take place. All of Laravel's optional
+  configuration options have been removed, only required configuration is
+  included by default.
+* Aliases have been removed as they encourage bypassing dependency injection.
 * The `routes` directory has been removed in favour of explicit route
   registration through a `ServiceProvider` as this encourages developers
   to think about HTTP as one interface into the application — rather than _the_
@@ -102,3 +104,4 @@ performance in development by ~10x
 [docker-ignore]: .dockerignore
 [ignore-by-default]: https://youknowfordevs.com/2018/12/07/getting-control-of-your-dockerignore-files.html
 [markbirkbeck]: https://github.com/markbirbeck
+[bootstrap]: bootstrap/app.php

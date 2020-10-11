@@ -1,7 +1,6 @@
 version: '3.4'
 services:
   app:
-    image: ${SERVICE_PREFIX:-laravel}_app:local
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,21 +8,36 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
+      - storage:/srv/storage
       - vendor:/srv/vendor
       - ./composer.json:/srv/composer.json
       - ./composer.lock:/srv/composer.lock
       - .:/srv
     environment:
-      - APP_NAME="Laravel Project"
       - APP_ENV=local
       - APP_KEY=base64:UQ1twa4dXlsO3ZnD9R8nhLVjNx4pdOTOjACqZgOOBuM=
       - APP_DEBUG=true
-      - APP_URL=http://localhost
+      - APP_URL=http://localhost:${APP_PORT:-8080}
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=app
+      - DB_USERNAME=root
+      - DB_PASSWORD=password
     ports:
-      - ${APP_PORT:-8094}:8080
-    container_name: ${SERVICE_PREFIX:-laravel}_app
+      - ${APP_PORT:-8080}:8080
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=app
+    ports:
+      - ${MYSQL_PORT:-3306}:3306
 networks:
   default:
     driver: bridge
 volumes:
   vendor:
+  storage:

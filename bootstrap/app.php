@@ -135,10 +135,8 @@ $app->instance('config', new Config([
         'driver' => env('SESSION_DRIVER', 'array'),
     ],
     'view' => [
-        'paths' => [
-            resource_path('views'),
-        ],
-        'compiled' => realpath(storage_path('framework/views')),
+        'paths' => [resource_path('views')],
+        'compiled' => storage_path('views'),
     ],
 ]));
 

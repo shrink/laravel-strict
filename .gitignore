@@ -1,6 +1,6 @@
 /public/hot
 /public/storage
-/storage/*
+/storage
 /vendor
 .env
 .phpunit.result.cache

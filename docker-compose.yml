@@ -8,6 +8,7 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
+      - storage:/srv/storage
       - vendor:/srv/vendor
       - ./composer.json:/srv/composer.json
       - ./composer.lock:/srv/composer.lock
@@ -39,3 +40,4 @@ networks:
     driver: bridge
 volumes:
   vendor:
+  storage:

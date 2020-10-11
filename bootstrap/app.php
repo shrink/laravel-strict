@@ -15,48 +15,56 @@ $app->instance(LoadConfiguration::class, new class {
     }
 });
 
-$providers = [
-    Illuminate\Auth\AuthServiceProvider::class,
-    Illuminate\Broadcasting\BroadcastServiceProvider::class,
-    Illuminate\Bus\BusServiceProvider::class,
-    Illuminate\Cache\CacheServiceProvider::class,
-    Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-    Illuminate\Cookie\CookieServiceProvider::class,
-    Illuminate\Database\DatabaseServiceProvider::class,
-    Illuminate\Encryption\EncryptionServiceProvider::class,
-    Illuminate\Filesystem\FilesystemServiceProvider::class,
-    Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-    Illuminate\Hashing\HashServiceProvider::class,
-    Illuminate\Mail\MailServiceProvider::class,
-    Illuminate\Notifications\NotificationServiceProvider::class,
-    Illuminate\Pagination\PaginationServiceProvider::class,
-    Illuminate\Pipeline\PipelineServiceProvider::class,
-    Illuminate\Queue\QueueServiceProvider::class,
-    Illuminate\Redis\RedisServiceProvider::class,
-    Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-    Illuminate\Session\SessionServiceProvider::class,
-    Illuminate\Translation\TranslationServiceProvider::class,
-    Illuminate\Validation\ValidationServiceProvider::class,
-    Illuminate\View\ViewServiceProvider::class,
-    App\HelloWorld\ServiceProvider::class,
-];
-
 $app->instance('config', new Config([
     'app' => [
         'name' => 'Laravel Project',
-        $app->env = 'env' => env('APP_ENV', 'production'),
+
+        'key' => env('APP_KEY'),
+        'cipher' => 'AES-256-CBC',
+
         'debug' => env('APP_DEBUG', false),
+        'env' => $app->env = env('APP_ENV', 'production'),
         'url' => env('APP_URL', 'http://localhost'),
         'asset_url' => env('ASSET_URL', null),
+
         'timezone' => (static function (string $timezone): string {
             date_default_timezone_set($timezone);
             return $timezone;
         })('UTC'),
+
+        'encoding' => (static function (string $encoding): string {
+            mb_internal_encoding($encoding);
+            return $encoding;
+        })('UTF-8'),
+
         'locale' => 'en',
         'fallback_locale' => 'en',
-        'key' => env('APP_KEY'),
-        'cipher' => 'AES-256-CBC',
-        'providers' => $providers,
+
+        'providers' => [
+            Illuminate\Auth\AuthServiceProvider::class,
+            Illuminate\Broadcasting\BroadcastServiceProvider::class,
+            Illuminate\Bus\BusServiceProvider::class,
+            Illuminate\Cache\CacheServiceProvider::class,
+            Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+            Illuminate\Cookie\CookieServiceProvider::class,
+            Illuminate\Database\DatabaseServiceProvider::class,
+            Illuminate\Encryption\EncryptionServiceProvider::class,
+            Illuminate\Filesystem\FilesystemServiceProvider::class,
+            Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+            Illuminate\Hashing\HashServiceProvider::class,
+            Illuminate\Mail\MailServiceProvider::class,
+            Illuminate\Notifications\NotificationServiceProvider::class,
+            Illuminate\Pagination\PaginationServiceProvider::class,
+            Illuminate\Pipeline\PipelineServiceProvider::class,
+            Illuminate\Queue\QueueServiceProvider::class,
+            Illuminate\Redis\RedisServiceProvider::class,
+            Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+            Illuminate\Session\SessionServiceProvider::class,
+            Illuminate\Translation\TranslationServiceProvider::class,
+            Illuminate\Validation\ValidationServiceProvider::class,
+            Illuminate\View\ViewServiceProvider::class,
+            App\HelloWorld\ServiceProvider::class,
+        ],
     ],
     'auth' => [
         [

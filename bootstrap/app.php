@@ -117,16 +117,14 @@ $app->instance('config', new Config([
         'migrations' => 'migrations',
     ],
     'logging' => [
-        [
-            'default' => env('LOG_CHANNEL', 'stdout'),
-            'channels' => [
-                'stdout' => [
-                    'driver' => 'monolog',
-                    'handler' => StreamHandler::class,
-                    'with' => [
-                        'stream' => 'php://stdout',
-                        'level' => 'warning',
-                    ],
+        'default' => 'stdout',
+        'channels' => [
+            'stdout' => [
+                'driver' => 'monolog',
+                'handler' => Monolog\Handler\StreamHandler::class,
+                'with' => [
+                    'stream' => 'php://stdout',
+                    'level' => 'warning',
                 ],
             ],
         ],

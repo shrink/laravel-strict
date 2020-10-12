@@ -4,6 +4,8 @@ USER root
 RUN docker-php-ext-install pdo_mysql
 USER nobody
 
+RUN mkdir -p /srv/storage/logs /srv/storage/views
+
 FROM php as dependencies
 
 ENV HOME=/run

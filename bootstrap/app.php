@@ -64,6 +64,10 @@ $app->instance('config', new Config([
             Illuminate\Validation\ValidationServiceProvider::class,
             Illuminate\View\ViewServiceProvider::class,
             App\HelloWorld\ServiceProvider::class,
+
+            App\Shared\System::class,
+
+            Shrink\Conductor\Laravel\Conductor::class,
         ],
     ],
     'auth' => [

@@ -68,6 +68,8 @@ $app->instance('config', new Config([
             App\Shared\System::class,
 
             Shrink\Conductor\Laravel\Conductor::class,
+
+            App\Shared\Health::class,
         ],
     ],
     'auth' => [

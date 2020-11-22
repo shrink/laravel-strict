@@ -41,7 +41,6 @@ steps:
 - [ ] Execute `$ mv README-project.md README.md`
 - [ ] Commit!
 
-  configuration of the application should take place. All of Laravel's optional
 ## Changes
 
 Many defaults have been removed, consolidated or changed to encourage best

@@ -3,17 +3,18 @@
 **Laravel** [`8`][laravel-8] + **Docker**
 [`shrink/docker-php-api`][shrink/docker-php-api]
 
-Laravel Strict is a Laravel install designed for building high quality
-containerised Laravel applications.
+Laravel Strict is a
+[<img src="https://laravel.com/img/favicon/favicon-32x32.png" height="12"> Laravel][laravel]
+install designed for building high quality containerised Laravel applications.
 
+* **All HTTP requests served by Laravel** &mdash; ideal for an API
 * Code quality enforced by [`nunomaduro/phpinsights`][php-insights] and
   [`vimeo/psalm`][psalm]
-* Laravel boilerplate removed
+* Laravel configured with sane defaults and without unused boilerplate
 * Continuous Delivery using [GitHub Actions][workflows/build] and the GitHub
   Container Registry
-* Docker Compose provides a local development environment
+* [Development Environment](#development-environment) using Docker Compose
 * [`Makefile`](Makefile) includes helpful development lifecycle commands
-* **All requests served by Laravel** which is ideal for an API
 
 During development you can visit the [`laravel/laravel`][laravel/laravel]
 repository to obtain any boilerplate required and explicitly introduce it into
@@ -40,30 +41,53 @@ steps:
 - [ ] Execute `$ mv README-project.md README.md`
 - [ ] Commit!
 
-## Notes
-
-* Configuration has been moved from `config/*.php` into the application
-  bootstrap in [`bootstrap/app.php`][bootstrap] where all additional
   configuration of the application should take place. All of Laravel's optional
-  configuration options have been removed, only required configuration is
-  included by default.
-* Aliases have been removed as they encourage bypassing dependency injection.
-* The `routes` directory has been removed in favour of explicit route
-  registration through a `ServiceProvider` as this encourages developers
-  to think about HTTP as one interface into the application — rather than _the_
-  application.
-* Environment Variables are passed in to the container by Docker Compose: dotenv
-  is **not** supported. Environment Variables should be explicitly set for
-  each service in [`docker-compose.yml`][dc-config] to emulate how
-  environment variables will be provided in production environments. A developer
-  can use [`docker-compose.override.yml`][dc-override] to provide values unique
-  to their local environment.
-* [`.dockerignore`][docker-ignore] excludes all files by default before
-  explicitly including paths required by the application. Learn more about this
-  approach in [Getting Control Of Your `.dockerignore` Files][ignore-by-default]
-  by [@markbirbeck][markbirkbeck].
+## Changes
 
-## Volume `vendor`
+Many defaults have been removed, consolidated or changed to encourage best
+practices.
+
+### Configuration
+
+Configuration has been moved from `config/*.php` into the application bootstrap
+in [`bootstrap/app.php`][bootstrap] where all additional configuration of the
+application should take place. All of Laravel's optional configuration options
+have been removed, only required configuration is included by default.
+
+Aliases have been removed as they encourage bypassing dependency injection.
+
+### Routing
+
+The `routes` directory has been removed in favour of explicit route registration
+through a `ServiceProvider` for each component, as this encourages developers to
+think about HTTP as one interface into the application — rather than _the_
+application.
+
+### Environment
+
+Laravel ships with [`vlucas/phpdotenv`][phpdotenv] for easy environment
+variable management, however for a containerised application this library is
+unnecessary and may even compromise portability. All environment variables
+should be provided via the container orchestration engine, e.g: Docker Compose.
+
+### Application Build
+
+[`.dockerignore`][docker-ignore] excludes all files by default before explicitly
+including paths required by the application. Learn more about this approach in
+[Getting Control Of Your `.dockerignore` Files][ignore-by-default] by
+[@markbirbeck][markbirkbeck].
+
+## Development Environment
+
+### Environment Variables
+
+Environment Variables should be explicitly set for each service in
+[`docker-compose.yml`][dc-config] to emulate how environment variables will be
+provided in production environments. A developer can use
+[`docker-compose.override.yml`][dc-override] to provide values unique to their
+local environment.
+
+### Volume `vendor`
 
 By default the `vendor` directory is a mounted volume to maximise performance,
 however if you wish for developers to be able to access the contents of the
@@ -86,6 +110,7 @@ launch: run
 :warning: volume mounting dependencies in this way will reduce application
 performance in development by ~10x
 
+[laravel]: https://laravel.com
 [laravel-8]: https://laravel.com/docs/8.x
 [shrink/docker-php-api]: https://github.com/shrink/docker-php-api
 [php-insights]: https://phpinsights.com
@@ -105,3 +130,4 @@ performance in development by ~10x
 [ignore-by-default]: https://youknowfordevs.com/2018/12/07/getting-control-of-your-dockerignore-files.html
 [markbirkbeck]: https://github.com/markbirbeck
 [bootstrap]: bootstrap/app.php
+[phpdotenv]: https://github.com/vlucas/phpdotenv

@@ -22,8 +22,9 @@ quality requirements**, it was created for use in regulated environments where
 confidence is more valuable than development speed.
 
 1. [**Getting Started** with Laravel Strict](#getting-started)
-2. [**Differences** between Laravel Strict and Laravel](#differences)
-3. [**Development Environment**](#development-environment)
+2. [**Features** included in Laravel Strict](#features)
+3. [**Differences** between Laravel Strict and Laravel](#differences)
+4. [**Development Environment**](#development-environment)
 
 ## Getting Started
 
@@ -48,6 +49,15 @@ dev:~$ git clone https://github.com/example/my-strict-application.git
 dev:~$ make
 »» Launched application at http://localhost:8094
 ```
+
+## Features
+
+### Healthcheck
+
+Docker's [`HEALTHCHECK`][docker-healthcheck] functionality declares a command
+that Docker can use at runtime to check the health of a container. Laravel
+Strict ships with a healthcheck endpoint (using [Conductor][conductor-laravel])
+that is checked at a 10s interval.
 
 ## Differences
 
@@ -164,3 +174,5 @@ performance in development by ~10x
 [generate-new]: generate
 [create-readme]: edit/main/README-project.md?filename=README.md
 [modern-make]: https://github.com/tj/mmake
+[docker-healthcheck]: https://docs.docker.com/engine/reference/builder/#healthcheck
+[conductor-laravel]: https://github.com/shrink/conductor-laravel

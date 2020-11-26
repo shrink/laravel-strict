@@ -32,3 +32,6 @@ FROM php
 COPY --chown=nobody . ./
 COPY --from=validate /srv/artifacts /srv/artifacts
 COPY --from=production /srv/vendor /srv/vendor
+
+HEALTHCHECK --interval=10s --timeout=1s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/.conductor/application || exit 1

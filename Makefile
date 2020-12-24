@@ -59,11 +59,6 @@ check:
 test:
 	${COMPOSER_COMMAND} test
 
-# Run the application's PHP Insights
-.PHONY: insights
-insights:
-	${COMPOSER_COMMAND} insights -- -v
-
 # Install all of the application's composer dependencies
 .PHONY: install
 install:

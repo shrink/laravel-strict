@@ -1,4 +1,4 @@
-FROM ghcr.io/shrink/docker-php-api:7.4 as php
+FROM ghcr.io/shrink/docker-php-api:8 as php
 
 USER root
 RUN docker-php-ext-install pdo_mysql
@@ -10,10 +10,9 @@ FROM php as dependencies
 
 ENV HOME=/run
 
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY composer.json composer.lock ./
-RUN composer global require hirak/prestissimo --dev --prefer-dist && \
-    composer install --no-ansi --no-autoloader --no-interaction
+RUN composer install --no-ansi --no-autoloader --no-interaction
 
 COPY --chown=nobody . ./
 RUN composer dump-autoload

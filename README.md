@@ -1,16 +1,15 @@
 # Laravel Strict
 
 **Laravel** [`8`][laravel-8] + **Docker**
-[`shrink/docker-php-api`][shrink/docker-php-api]
+[`shrink/docker-php-api:8`][shrink/docker-php-api]
 
 Laravel Strict is a
 [<img src="https://laravel.com/img/favicon/favicon-32x32.png" height="12"> Laravel <sup>&neArr;</sup>][laravel]
 install designed for building high quality containerised Laravel applications.
 
 * **All HTTP requests served by Laravel** &mdash; ideal for an API
-* Code quality enforced by
-  [`nunomaduro/phpinsights`<sup>&neArr;</sup>][php-insights] and
-  [`vimeo/psalm`<sup>&neArr;</sup>][psalm]
+* Code quality enforced by [`vimeo/psalm`<sup>&neArr;</sup>][psalm] and
+  [`squizlabs/php_codesniffer`<sup>&neArr;</sup>][phpcs]
 * Laravel configured with sane defaults and without boilerplate
 * Continuous Delivery using [GitHub Actions][workflows] and the GitHub Container
   Registry
@@ -153,8 +152,8 @@ performance in development by ~10x
 [laravel]: https://laravel.com
 [laravel-8]: https://laravel.com/docs/8.x
 [shrink/docker-php-api]: https://github.com/shrink/docker-php-api
-[php-insights]: https://phpinsights.com
 [psalm]: https://psalm.dev
+[phpcs]: https://github.com/squizlabs/PHP_CodeSniffer
 [workflows]: .github/workflows
 [workflows/build]: .github/workflows/build.yml
 [laravel/laravel]: https://github.com/laravel/laravel

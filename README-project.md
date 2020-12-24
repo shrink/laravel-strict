@@ -23,7 +23,8 @@ including `check`, `shell`, `logs`, `upgrade`, `build` and more.
 ### Quality
 
 Code quality is verified using the `check` command which executes all test
-suites, performs static analysis and generates code insights.
+suites, performs static analysis and validates compliance with
+[PSR-12: Extended Coding Style][psr-12].
 
 ```console
 dev:~$ make check
@@ -41,3 +42,4 @@ dev:~$ git config core.hooksPath .github/hooks
 [dockerfile]: Dockerfile
 [dc-config]: docker-compose.yml
 [mmake]: https://github.com/tj/mmake
+[psr-12]: https://www.php-fig.org/psr/psr-12/

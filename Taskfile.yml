@@ -21,3 +21,7 @@ tasks:
     desc: Stop the local application environment and clean all state
     cmds:
       - docker compose down -v --rmi all --remove-orphans
+  logs:
+    desc: Stream local environment container output
+    cmds:
+      - docker-compose logs -f

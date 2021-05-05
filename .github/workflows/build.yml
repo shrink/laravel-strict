@@ -68,7 +68,7 @@ jobs:
         with:
           require: write
   push:
-    needs: [image, actor]
+    needs: [image, permissions]
     runs-on: ubuntu-latest
     permissions:
       packages: write

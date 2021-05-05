@@ -1,12 +1,8 @@
 name: Build Application
 
 on:
-  push:
-    branches:
-      - "**"
   pull_request:
-    branches:
-      - "**"
+    types: [opened, synchronize, closed, reopened]
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}

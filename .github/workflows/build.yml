@@ -61,12 +61,12 @@ jobs:
   permissions:
     runs-on: ubuntu-latest
     outputs:
-      can-write: ${{ steps.permission.outputs.result }}
+      can-write: steps.check.outputs.has-permission
     steps:
-      - id: permission
-        uses: actions-cool/check-user-permission@v1.0.0
+      - id: check
+        uses: scherermichael-oss/action-has-permission@master
         with:
-          require: write
+          required-permission: write
   push:
     needs: [image, permissions]
     runs-on: ubuntu-latest

@@ -11,7 +11,7 @@ tasks:
   start:
     desc: Start the local application environment
     cmds:
-      - docker compose up -d
+      - task: up
       - echo "Launched application at http://localhost:$APP_PORT"
   suspend:
     desc: Suspend the local application environment to maintain state for later
@@ -24,4 +24,13 @@ tasks:
   logs:
     desc: Stream local environment container output
     cmds:
-      - docker-compose logs -f
+      - docker compose logs -f
+  shell:
+    desc: Launch interactive shell for application container
+    vars:
+      SERVICE: '{{default "app" .SERVICE}}'
+    cmds:
+      - docker compose exec {{.SERVICE}} sh
+  up:
+    cmds:
+      - docker compose up -d

@@ -79,7 +79,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_PAT }}
       - run: docker load --input app.tar
       - name: Push image to Container Registry for all tags
         run: docker image push --all-tags ${{ env.IMAGE }}

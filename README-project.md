@@ -8,17 +8,21 @@ The application is built as a Docker image defined in
 [`Dockerfile`][dockerfile]. Docker Compose provides application orchestration
 during development, as defined in [`docker-compose.yml`][dc-config]. Developers
 should only interact with the project through the container(s). A number of
-commands are included to aide with this workflow — provided by `make`.
+helpful tasks are included to aide with this workflow using [Task][taskfile].
 
 ```console
-dev:~$ make
+dev:~$ task start
 »» Launched application at http://localhost:8094
 ```
 
-A full list of supported commands is available in [`Makefile`](Makefile) —
+A full list of supported commands is available using `task` —
 including `check`, `shell`, `logs`, `upgrade`, `build` and more.
-[Modern Make][mmake] is recommended to gain a dynamic command list using
-`make help`.
+
+```console
+dev:~$ task
+task: Available tasks for this project:
+* start: 	Start the local application environment
+```
 
 ### Quality
 
@@ -27,7 +31,7 @@ suites, performs static analysis and validates compliance with
 [PSR-12: Extended Coding Style][psr-12].
 
 ```console
-dev:~$ make check
+dev:~$ task check
 ```
 
 ### Hooks
@@ -41,5 +45,5 @@ dev:~$ git config core.hooksPath .github/hooks
 
 [dockerfile]: Dockerfile
 [dc-config]: docker-compose.yml
-[mmake]: https://github.com/tj/mmake
 [psr-12]: https://www.php-fig.org/psr/psr-12/
+[taskfile]: https://taskfile.dev/

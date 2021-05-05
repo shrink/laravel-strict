@@ -1,0 +1,15 @@
+version: '3'
+
+silent: true
+
+dotenv: ['.env', '.env.example']
+
+tasks:
+  default:
+    cmds:
+      - task --list
+  start:
+    desc: Start the local application environment
+    cmds:
+      - docker compose up -d
+      - echo "Launched application at http://localhost:$APP_PORT"

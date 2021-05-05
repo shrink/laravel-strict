@@ -64,7 +64,7 @@ jobs:
       can-write: steps.check.outputs.has-permission
     steps:
       - id: check
-        uses: scherermichael-oss/action-has-permission@master
+        uses: scherermichael-oss/action-has-permission@1.0.6
         with:
           required-permission: write
   push:
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    if: needs.permissions.outputs.can-write == 'true'
+    if: needs.permissions.outputs.can-write
     steps:
       - name: Download application's Docker image from build job
         uses: actions/download-artifact@v2

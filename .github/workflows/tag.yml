@@ -20,6 +20,4 @@ jobs:
         token: ${{ secrets.GHCR_PAT }}
         repository: ${{ github.repository }}
         target: ${{ steps.push.outputs.sha }}
-        tags: |
-          ${{ steps.push.outputs.ref }}
-          latest
+        tags: ${{ steps.push.outputs.ref }}

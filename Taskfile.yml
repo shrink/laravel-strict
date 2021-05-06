@@ -12,6 +12,7 @@ tasks:
     desc: Start the local application environment
     cmds:
       - task: up
+      - task: install
       - echo "Launched application at http://localhost:$APP_PORT"
   suspend:
     desc: Suspend the local application environment to maintain state for later
@@ -20,17 +21,84 @@ tasks:
   stop:
     desc: Stop the local application environment and clean all state
     cmds:
-      - docker compose down -v --rmi all --remove-orphans
+      - docker compose down --volumes --rmi all --remove-orphans
   logs:
     desc: Stream local environment container output
     cmds:
       - docker compose logs -f
   shell:
     desc: Launch interactive shell for application container
-    vars:
-      SERVICE: '{{default "app" .SERVICE}}'
     cmds:
-      - docker compose exec {{.SERVICE}} sh
+      - task: exec
+        vars: {COMMAND: 'sh'}
+  check:
+    desc: Run application checks (code quality, tests)
+    cmds:
+      - task: composer
+        vars: {SCRIPT: "check"}
+  test:
+    desc: Run application tests
+    cmds:
+      - task: composer
+        vars: {SCRIPT: "test"}
+  install:
+    desc: Install php dependencies
+    cmds:
+      - task: composer
+        vars: {SCRIPT: "install"}
+  release:
+    desc: Tag new version of the application
+    summary: |
+      Tag a new version of the application against the current HEAD
+
+      VERSION is a required parameter which should be an un-prefixed Semantic
+      Version, e.g: 0.1.0.
+
+      To overwrite an existing tag on the local and remote, pass through the
+      `-f` flag to the underlying git command:
+
+      VERSION=0.1.0 task release -- -f
+    preconditions:
+      - sh: test $VERSION
+        msg: A VERSION parameter is required to create a new release
+    vars:
+      VERSION: '{{default "0.1.0" .VERSION}}'
+    cmds:
+      - git show --oneline -s
+      - |
+        git tag -sam ":tada: Version {{.VERSION}}" v{{.VERSION}} {{.CLI_ARGS}}
+      - git push origin v{{.VERSION}} {{.CLI_ARGS}}
   up:
+    summary: |
+      Start local application environment
+
+      note: This is a command fragment for Taskfile composition.
     cmds:
       - docker compose up -d
+  composer:
+    summary: |
+      Run composer script on service
+
+      note: This is a command fragment for Taskfile composition.
+    vars:
+      SCRIPT: '{{default "" .SCRIPT}}'
+    cmds:
+      - task: exec
+        vars: {COMMAND: "composer {{.SCRIPT}}"}
+  exec:
+    summary: |
+      Run arbitrary command on service
+
+      TTY controls pseudo-tty allocation using for scripted execution of tasks.
+
+      note: This is a command fragment for Taskfile composition.
+    vars:
+      SERVICE: '{{default "app" .SERVICE}}'
+      COMMAND: '{{default "echo \"Hello, World!\"" .COMMAND}}'
+      TTY: '{{default "true" .TTY}}'
+    cmds:
+      - task: up
+      - |
+        docker compose exec \
+        {{if ne .TTY "true"}}-T{{end}} \
+        {{.SERVICE}} {{.COMMAND}}

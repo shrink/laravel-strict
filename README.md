@@ -14,7 +14,8 @@ install designed for building high quality containerised Laravel applications.
 * Continuous Delivery using [GitHub Actions][workflows] and the GitHub Container
   Registry
 * [Development Environment](#development-environment) using Docker Compose
-* [`Makefile`](Makefile) with helpful development lifecycle commands
+* [`Taskfile`<sup>&neArr;</sup>][task] with helpful development lifecycle
+  commands
 
 :thought_balloon: **Laravel Strict is intended for projects with strict code
 quality requirements**, it was created for use in regulated environments where
@@ -45,7 +46,7 @@ built and pushed to the GitHub Container Registry by the
 
 ```console
 dev:~$ git clone https://github.com/example/my-strict-application.git
-dev:~$ make
+dev:~$ task start
 »» Launched application at http://localhost:8094
 ```
 
@@ -101,21 +102,17 @@ including paths required by the application. Learn more about this approach in
 
 ## Development Environment
 
-### `make`
+### `task`
 
-[`Makefile`](Makefile) includes a full suite of commands for use during the
-development lifecycle. [Modern Make][modern-make] is recommended to provide a
-dynamic command list.
+[Task][task] is a cross-platform task runner, which is used to provide a full
+suite of commands for use during the development lifecycle.
 
 ```console
-dev:~$ make help
-  build                  Build the application's Docker image | TAG!
-  check                  Run the application's code checks
-  launch                 Launch development environment (default)
-  logs                   Listen to the service logs
-  shell                  Log in to the application container
-  test                   Run the application's tests
-  ...                    +14 more
+dev:~$ task
+task: Available tasks for this project:
+* check: 	Run application checks (code quality, tests)
+* start: 	Start the local application environment
+* .....: 	+ more
 ```
 
 ### Environment Variables
@@ -126,28 +123,27 @@ provided in production environments. A developer can use
 [`docker-compose.override.yml`][dc-override] to provide values unique to their
 local environment.
 
-### Volume `vendor`
+### Volumes `vendor` + `storage`
 
-By default the `vendor` directory is a mounted volume to maximise performance,
-however if you wish for developers to be able to access the contents of the
-`vendor` directory you can modify [`docker-compose.yml`][dc-config] like so:
+The `vendor` and `storage` directories are **volume** mounts to maximise
+performance, however this means by default the host machine cannot access the
+volume contents.
 
-```diff
-volumes:
--  - vendor:/srv/vendor
-+  - ./vendor:/srv/vendor
-```
-
-This will require an additional dependency install as part of the `launch` step
-in the `Makefile`, i.e:
+Developers can **bind** mount these volumes instead to gain access to the volume
+contents by overriding the volume configuration in their
+`docker-compose.override.yml`.
 
 ```diff
-launch: run
-+	make install
++services:
++  app:
++    volumes:
++      - .:/srv
++      - ./storage:/srv/storage
++      - ./vendor:/srv/vendor
 ```
 
-:warning: volume mounting dependencies in this way will reduce application
-performance in development by ~10x
+:warning: bind mounting volumes in this way may reduce application performance
+in development by up to 10x
 
 [laravel]: https://laravel.com
 [laravel-8]: https://laravel.com/docs/8.x
@@ -160,7 +156,6 @@ performance in development by ~10x
 [readme-project]: README-project.md
 [edit/composer.json]: edit/main/composer.json
 [docker/name]: https://github.com/moby/moby/blob/19.03/daemon/names/names.go#L6
-[hooks]: README-project.md#hooks
 [ghcr-pat]: https://docs.github.com/en/packages/getting-started-with-github-container-registry/migrating-to-github-container-registry-for-docker-images#authenticating-with-the-container-registry
 [secrets]: settings/secrets
 [dc-config]: docker-compose.yml
@@ -171,7 +166,7 @@ performance in development by ~10x
 [bootstrap]: bootstrap/app.php
 [phpdotenv]: https://github.com/vlucas/phpdotenv
 [generate-new]: generate
+[task]: https://taskfile.dev
 [create-readme]: edit/main/README-project.md?filename=README.md
-[modern-make]: https://github.com/tj/mmake
 [docker-healthcheck]: https://docs.docker.com/engine/reference/builder/#healthcheck
 [conductor-laravel]: https://github.com/shrink/conductor-laravel

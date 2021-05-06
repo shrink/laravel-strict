@@ -8,11 +8,9 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
+      - .:/srv
       - storage:/srv/storage
       - vendor:/srv/vendor
-      - ./composer.json:/srv/composer.json
-      - ./composer.lock:/srv/composer.lock
-      - .:/srv
     environment:
       - APP_ENV=local
       - APP_KEY=base64:UQ1twa4dXlsO3ZnD9R8nhLVjNx4pdOTOjACqZgOOBuM=

@@ -29,7 +29,7 @@ RUN composer dump-autoload --optimize
 
 FROM php
 COPY --chown=nobody . ./
-COPY --from=validate /srv/artifacts /srv/artifacts
+COPY --from=validate /srv/reports /srv/reports
 COPY --from=production /srv/vendor /srv/vendor
 
 HEALTHCHECK --interval=10s --timeout=1s --retries=3 \

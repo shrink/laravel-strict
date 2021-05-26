@@ -3,21 +3,21 @@ name: Tag Application Build
 on:
   push:
     tags:
-      - '**'
+      - "**"
 
 jobs:
-  tag:
+  add-version-tag:
     runs-on: ubuntu-latest
     steps:
-    - id: push
-      run: |
-        echo ::set-output name=sha::sha-${GITHUB_SHA:0:7}
-        echo ::set-output name=ref::${GITHUB_REF#refs/*/}
-    - name: Publish Tag
-      uses: shrink/actions-docker-registry-tag@v1
-      with:
-        registry: ghcr.io
-        token: ${{ secrets.GHCR_PAT }}
-        repository: ${{ github.repository }}
-        target: ${{ steps.push.outputs.sha }}
-        tags: ${{ steps.push.outputs.ref }}
+      - id: short
+        uses: benjlevesque/short-sha@v1.2
+      - id: version
+        uses: battila7/get-version-action@v2
+      - name: Add version tag to commit build
+        uses: shrink/actions-docker-registry-tag@v1
+        with:
+          registry: ghcr.io
+          token: "${{ secrets.GHCR_PAT }}"
+          repository: "${{ github.repository }}"
+          target: "sha-${{ steps.short.outputs.sha }}"
+          tags: "${{ steps.version.outputs.version }}"

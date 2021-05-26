@@ -4,7 +4,7 @@
 /vendor/**
 /.env
 /.phpunit.result.cache
-/artifacts/**
+/reports/**
 /junit.xml
 /docker-compose.override.yml
 

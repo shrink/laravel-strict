@@ -2,53 +2,54 @@ name: Upload Release Assets
 
 on:
   release:
-    types: [created]
+    types:
+      - created
 
 jobs:
-  assets:
+  upload-release-assets:
     runs-on: ubuntu-latest
     steps:
-    - name: Get Release
-      id: release
-      uses: bruceadams/get-release@v1.2.1
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ secrets.GHCR_PAT }}
-    - name: Extract Test Artifacts
-      uses: shrink/actions-docker-extract@v1
-      id: artifacts
-      with:
-        image: ghcr.io/${{ github.repository }}:${{ steps.release.outputs.tag_name }}
-        path: /srv/artifacts/.
-    - name: Compress Test Artifacts
-      uses: papeloto/action-zip@v1
-      with:
-        files: ${{ steps.artifacts.outputs.destination }}
-        dest: test-artifacts.zip
-    - name: Upload Test Artifacts
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: test-artifacts.zip
-        asset_name: ${{ steps.release.outputs.tag_name }}-test-artifacts.zip
-        asset_content_type: application/zip
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-    - name: Save Application Image
-      run: |
-        docker save --output ${{ steps.release.outputs.tag_name }}.tar \
-        ghcr.io/${{ github.repository }}:${{ steps.release.outputs.tag_name }}
-    - name: Upload Application Image
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: ${{ steps.release.outputs.tag_name }}.tar
-        asset_name: ${{ steps.release.outputs.tag_name }}-app.tar
-        asset_content_type: application/x-tar
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+      - name: Get Release
+        id: release
+        uses: bruceadams/get-release@v1.2.1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: "${{ github.repository_owner }}"
+          password: "${{ secrets.GHCR_PAT }}"
+      - name: Extract Test Reports
+        uses: shrink/actions-docker-extract@v1
+        id: reports
+        with:
+          image: "ghcr.io/${{ github.repository }}:${{ steps.release.outputs.tag_name }}"
+          path: /srv/reports/.
+      - name: Compress Test Reports
+        uses: papeloto/action-zip@v1
+        with:
+          files: "${{ steps.reports.outputs.destination }}"
+          dest: test-reports.zip
+      - name: Upload Test Reports
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: "${{ steps.release.outputs.upload_url }}"
+          asset_path: test-reports.zip
+          asset_name: "${{ steps.release.outputs.tag_name }}-test-reports.zip"
+          asset_content_type: application/zip
+      - name: Save Application Image
+        run: |
+          docker save --output ${{ steps.release.outputs.tag_name }}.tar \
+          ghcr.io/${{ github.repository }}:${{ steps.release.outputs.tag_name }}
+      - name: Upload Application Image
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: "${{ steps.release.outputs.upload_url }}"
+          asset_path: "${{ steps.release.outputs.tag_name }}.tar"
+          asset_name: "${{ steps.release.outputs.tag_name }}-app.tar"
+          asset_content_type: application/x-tar

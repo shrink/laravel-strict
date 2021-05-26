@@ -1,85 +1,58 @@
-name: Build Application
+name: Build Application Image
 
 on:
-  pull_request:
-    types: [opened, synchronize, closed, reopened]
+  push:
+    branches:
+      - "**"
 
 env:
-  IMAGE: ghcr.io/${{ github.repository }}
+  IMAGE: "ghcr.io/${{ github.repository }}"
 
 jobs:
-  image:
+  build-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: docker/setup-buildx-action@v1
-      - id: meta
+      - name: Generate branch Docker Image attributes
+        id: meta
         uses: crazy-max/ghaction-docker-meta@v2
         with:
-          images: ${{ env.IMAGE }}
+          images: "${{ env.IMAGE }}"
           tags: |
             type=ref,event=branch
             type=sha
-      - name: Build application image
+      - name: Build Docker Image
+        id: build
         uses: docker/build-push-action@v2
         with:
           load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      - name: Re-run failed build to `test` stage for subsequent report extraction
-        if: failure()
-        uses: docker/build-push-action@v2
-        with:
-          load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          target: test
-      - name: Extract test report(s) from all image builds
-        uses: shrink/actions-docker-extract@v1
-        if: always()
-        id: artifacts
-        with:
-          image: ${{ env.IMAGE }}:${{ steps.meta.outputs.version }}
-          path: /srv/artifacts/.
-      - name: Upload test report(s) as pipeline artifacts
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          path: ${{ steps.artifacts.outputs.destination }}
-          name: "test-reports"
-      - if: success()
-        run: docker save --output app.tar ${{ env.IMAGE }}
-      - name: Upload application's Docker image as pipeline artifact
-        if: success()
+          tags: "${{ steps.meta.outputs.tags }}"
+          labels: "${{ steps.meta.outputs.labels }}"
+      - name: Save Docker Image archive to local filesystem
+        run: "docker save --output app.tar ${{ env.IMAGE }}"
+      - name: Upload application's Docker Image as pipeline artifact
         uses: actions/upload-artifact@v2
         with:
           path: app.tar
           name: app.tar
-  permissions:
-    runs-on: ubuntu-latest
-    outputs:
-      can-write: steps.check.outputs.has-permission
-    steps:
-      - id: check
-        uses: scherermichael-oss/action-has-permission@1.0.6
+      - name: "Re-run failed build to `test` stage"
+        if: failure()
+        uses: docker/build-push-action@v2
         with:
-          required-permission: write
-  push:
-    needs: [image, permissions]
-    runs-on: ubuntu-latest
-    permissions:
-      packages: write
-    if: needs.permissions.outputs.can-write
-    steps:
-      - name: Download application's Docker image from build job
-        uses: actions/download-artifact@v2
+          target: test
+          load: true
+          tags: "${{ steps.meta.outputs.tags }}"
+      - name: Extract test reports from Docker Image
+        if: always()
+        uses: shrink/actions-docker-extract@v1
+        id: reports
         with:
-          name: app.tar
-      - name: Log in to GitHub Container Registry as actor
-        uses: docker/login-action@v1
+          image: "${{ env.IMAGE }}:${{ steps.meta.outputs.version }}"
+          path: /srv/reports/.
+      - name: Upload test report(s) as pipeline artifacts
+        if: always()
+        uses: actions/upload-artifact@v2
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_PAT }}
-      - run: docker load --input app.tar
-      - name: Push image to Container Registry for all tags
-        run: docker image push --all-tags ${{ env.IMAGE }}
+          path: "${{ steps.reports.outputs.destination }}"
+          name: test-reports

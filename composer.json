@@ -58,7 +58,7 @@
       "vendor/bin/phpcs --standard=PSR12 src/"
     ],
     "static": [
-      "vendor/bin/psalm --long-progress --report=artifacts/psalm.junit.xml"
+      "vendor/bin/psalm --long-progress --report=reports/psalm.junit.xml"
     ]
   }
 }

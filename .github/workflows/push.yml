@@ -1,0 +1,28 @@
+name: Push Application Image To Registry
+
+on:
+  workflow_run:
+    workflows:
+      - Build Application Image
+    types:
+      - completed
+
+jobs:
+  push-image-on-success:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Download application's Docker Image from build workflow
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml
+          name: app.tar
+      - name: Log in to GitHub Container Registry as actor
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_PAT }}
+      - run: docker load --input app.tar
+      - name: Push Docker Image to Container Registry for all tags
+        run: "docker image push --all-tags ghcr.io/${{ github.repository }}"

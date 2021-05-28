@@ -1,8 +1,6 @@
-FROM ghcr.io/shrink/docker-php-api:8 as php
+FROM ghcr.io/shrink/docker-php-api:sha-37b3cf1-8 as php
 
 USER root
-RUN cat /etc/group
-RUN cat /etc/passwd
 RUN docker-php-ext-install pdo_mysql
 USER nobody
 

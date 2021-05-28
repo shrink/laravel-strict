@@ -1,7 +1,5 @@
 FROM ghcr.io/shrink/docker-php-api:8 as php
 
-RUN apk --no-cache add busybox
-
 USER root
 RUN docker-php-ext-install pdo_mysql
 USER nobody

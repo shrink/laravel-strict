@@ -12,7 +12,7 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 final class ServiceProvider extends LaravelServiceProvider
 {
     /**
-     * Register simple Hello World component.
+     * Register simple Hello World component. Hello, World!
      */
     public function boot(RouteRegistrar $registrar): void
     {

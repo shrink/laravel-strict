@@ -4,15 +4,14 @@
   "description": "Add a project description here",
   "license": "proprietary",
   "require": {
-    "php": "^8",
-    "laravel/framework": "^8.0",
+    "php": "^8.0.2",
+    "laravel/framework": "^9.0",
     "laravel/tinker": "^2.0",
-    "shrink/conductor-laravel": "^1.1.0"
+    "shrink/conductor-laravel": "^2"
   },
   "require-dev": {
-    "facade/ignition": "^2.3.6",
-    "nunomaduro/collision": "^5.0",
-    "phpunit/phpunit": "^8.5|^9.0",
+    "nunomaduro/collision": "^6.1",
+    "phpunit/phpunit": "^9.0",
     "squizlabs/php_codesniffer": "^3.5",
     "vimeo/psalm": "^4.3"
   },

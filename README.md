@@ -1,20 +1,20 @@
 # Laravel Strict
 
-**Laravel** [`8`][laravel-8] + **Docker**
+**Laravel** [`9`][laravel-8] + **Docker**
 [`shrink/docker-php-api:8`][shrink/docker-php-api]
 
 Laravel Strict is a
 [<img src="https://laravel.com/img/favicon/favicon-32x32.png" height="12"> Laravel <sup>&neArr;</sup>][laravel]
 install designed for building high quality containerised Laravel applications.
 
-* **All HTTP requests served by Laravel** &mdash; ideal for an API
-* Code quality enforced by [`vimeo/psalm`<sup>&neArr;</sup>][psalm] and
+- **All HTTP requests served by Laravel** &mdash; ideal for an API
+- Code quality enforced by [`vimeo/psalm`<sup>&neArr;</sup>][psalm] and
   [`squizlabs/php_codesniffer`<sup>&neArr;</sup>][phpcs]
-* Laravel configured with sane defaults and without boilerplate
-* Continuous Delivery using [GitHub Actions][workflows] and the GitHub Container
+- Laravel configured with sane defaults and without boilerplate
+- Continuous Delivery using [GitHub Actions][workflows] and the GitHub Container
   Registry
-* [Development Environment](#development-environment) using Docker Compose
-* [`Taskfile`<sup>&neArr;</sup>][task] with helpful development lifecycle
+- [Development Environment](#development-environment) using Docker Compose
+- [`Taskfile`<sup>&neArr;</sup>][task] with helpful development lifecycle
   commands
 
 :thought_balloon: **Laravel Strict is intended for projects with strict code
@@ -146,7 +146,7 @@ contents by overriding the volume configuration in their
 in development by up to 10x
 
 [laravel]: https://laravel.com
-[laravel-8]: https://laravel.com/docs/8.x
+[laravel-9]: https://laravel.com/docs/9.x
 [shrink/docker-php-api]: https://github.com/shrink/docker-php-api
 [psalm]: https://psalm.dev
 [phpcs]: https://github.com/squizlabs/PHP_CodeSniffer
